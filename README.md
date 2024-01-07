@@ -1,5 +1,5 @@
 **Laptop**
-<h5>As a processing unit for the ADC values out of MAX4466</h5>
+<ul><li>As a processing unit for the ADC values out of MAX4466</li></ul>
 
 **Raspberry Pi pico W**
 <ul>
