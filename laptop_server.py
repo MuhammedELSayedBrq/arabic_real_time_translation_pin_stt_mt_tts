@@ -28,6 +28,6 @@ def receive_audio_data(host, port):
 
 if __name__ == "__main__":
     HOST = "192.168.0.102"  # Replace with the actual IP of your Raspberry Pi
-    PORT = 80
+    PORT = 89
 
     receive_audio_data(HOST, PORT)
