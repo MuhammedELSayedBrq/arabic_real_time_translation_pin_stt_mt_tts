@@ -51,7 +51,7 @@ def receive_audio_data(host, port):
 
 
 if __name__ == "__main__":
-    HOST = get_ip() # gets ip from """address resoultion protocol""" reply
+    HOST_ip = get_ip() # gets ip from """address resoultion protocol""" reply
     PORT = 87
 
-    receive_audio_data(HOST, PORT)
+    receive_audio_data(HOST_ip, PORT)
