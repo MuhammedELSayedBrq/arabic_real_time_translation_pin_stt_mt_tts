@@ -1,9 +1,11 @@
+import machine
+import utime
 import network
 import time
 import socket
 from machine import ADC, Pin
-from time import sleep
 
+sensor_temp = machine.ADC(27)
 
 def connect_to_wifi(ssid, password):
     wlan = network.WLAN(network.STA_IF)
@@ -19,9 +21,8 @@ def connect_to_wifi(ssid, password):
     print("Connected to WiFi")
     print("Network config:", wlan.ifconfig())
 
-
 def send_adc_data(host, port):
-    adc_pin = ADC(Pin(26))
+    adc_pin = ADC(Pin(27))
 
     while True:
         try:
@@ -36,23 +37,23 @@ def send_adc_data(host, port):
 
             while True:
                 audio_value = adc_pin.read_u16()
-
                 client_socket.send(audio_value.to_bytes(2, "little"))
 
-        except OSError as e:
+            """except OSError as e:
             if e.errno == 98:  # EADDRINUSE
                 print(f"Port {port} is in use. Retrying in 5 seconds...")
                 sleep(5)
             else:
-                raise
-
-
+                raise"""
+        except:
+            print("Retrying...")
 if __name__ == "__main__":
-    wifi_ssid = "Max44663"
-    wifi_password = "RaspberryPi9911@"
+    wifi_ssid = "DESKTOP"
+    wifi_password = "00000000"
     connect_to_wifi(wifi_ssid, wifi_password)
 
     HOST = "0.0.0.0"  # Listen on all available interfaces
-    PORT = 80
+    PORT = 87
 
     send_adc_data(HOST, PORT)
+
