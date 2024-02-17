@@ -1,11 +1,8 @@
+import network , socket
+import _thread
 import machine
-import utime
-import network
 import time
-import socket
-from machine import ADC, Pin
 
-sensor_temp = machine.ADC(27)
 
 def connect_to_wifi(ssid, password):
     wlan = network.WLAN(network.STA_IF)
@@ -21,9 +18,16 @@ def connect_to_wifi(ssid, password):
     print("Connected to WiFi")
     print("Network config:", wlan.ifconfig())
 
-def send_adc_data(host, port):
-    adc_pin = ADC(Pin(27))
 
+audio_value = 0
+def read_ADC():
+    adc_pin = machine.ADC(27)
+    global audio_value
+    while True:
+        audio_value = adc_pin.read_u16()
+    
+def send_adc_data(host, port):
+    
     while True:
         try:
             server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -36,17 +40,12 @@ def send_adc_data(host, port):
             print(f"Connection from {client_address}")
 
             while True:
-                audio_value = adc_pin.read_u16()
+                global audio_value
                 client_socket.send(audio_value.to_bytes(2, "little"))
 
-            """except OSError as e:
-            if e.errno == 98:  # EADDRINUSE
-                print(f"Port {port} is in use. Retrying in 5 seconds...")
-                sleep(5)
-            else:
-                raise"""
         except:
             print("Retrying...")
+            
 if __name__ == "__main__":
     wifi_ssid = "DESKTOP"
     wifi_password = "00000000"
@@ -54,6 +53,7 @@ if __name__ == "__main__":
 
     HOST = "0.0.0.0"  # Listen on all available interfaces
     PORT = 87
-
+    
+    _thread.start_new_thread(read_ADC,())
     send_adc_data(HOST, PORT)
-
+    
