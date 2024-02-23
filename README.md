@@ -11,7 +11,7 @@ socket intiate to stream data to a near wifi point
   </li>
 </ul>
 
-**Important Files**
+**Main Scripts are:**
 <ul>
   <li>
   laptop_server.py
