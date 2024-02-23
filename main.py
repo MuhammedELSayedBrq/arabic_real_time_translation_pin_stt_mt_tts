@@ -20,6 +20,7 @@ def connect_to_wifi(ssid, password):
 
 
 audio_value = 0
+
 def read_ADC():
     adc_pin = machine.ADC(27)
     global audio_value
@@ -39,12 +40,13 @@ def send_adc_data(host, port):
             client_socket, client_address = server_socket.accept()
             print(f"Connection from {client_address}")
 
+            global audio_value
             while True:
-                global audio_value
                 client_socket.send(audio_value.to_bytes(2, "little"))
 
         except:
-            print("Retrying...")
+            print("Retrying in 1 second...")
+            time.sleep(1)
             
 if __name__ == "__main__":
     wifi_ssid = "DESKTOP"
@@ -52,7 +54,7 @@ if __name__ == "__main__":
     connect_to_wifi(wifi_ssid, wifi_password)
 
     HOST = "0.0.0.0"  # Listen on all available interfaces
-    PORT = 87
+    PORT = 49152    # general purpose port numbers from 49152 to 65535
     
     _thread.start_new_thread(read_ADC,())
     send_adc_data(HOST, PORT)

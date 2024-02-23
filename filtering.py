@@ -18,8 +18,9 @@ def filter_human(*args):
         filtered_data = signal.filtfilt(b, a, data)
 
         wavfile.write(output_file, sample_rate, np.int16(filtered_data))
+
     elif len(args) == 5:
-        input_file,output_file , lowcut , highcut , order= args
+        input_file,output_file , lowcut , highcut , order = args
         sample_rate, data = wavfile.read(input_file)
         nyquist_freq = 2 * sample_rate
         low = lowcut / nyquist_freq

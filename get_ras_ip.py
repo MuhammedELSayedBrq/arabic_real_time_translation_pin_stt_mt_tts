@@ -44,9 +44,14 @@ def get_ip():
     for device in connected_devices:
         devices = device.split(" ")
         #print(devices)
-        for index, item in enumerate(devices):
+        for item in devices:
             if item == "28-cd-c1-0e-7b-55":
                 raspberry.append(device)
+
     ip_first = raspberry[0]
     ip = ip_first.strip().split()[0]
+
     return ip
+
+if __name__ == '__main__':
+    print(get_ip())
