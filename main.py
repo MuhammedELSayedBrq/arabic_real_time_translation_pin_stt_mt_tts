@@ -23,6 +23,20 @@ audio_value = 0
 
 def read_ADC():
     adc_pin = machine.ADC(27)
+    machine.ADC.atten(ADC.ATTN_0DB)
+    """
+    ADC.init(sample_ns=40, atten="0db")
+    ADC.ATTN_0DB: No attenuation (1V).
+    ADC.ATTN_2_5DB: 2.5 dB attenuation (1.34V).
+    ADC.ATTN_6DB: 6 dB attenuation (2V).
+    ADC.ATTN_11DB: 11 dB attenuation (3.6V).
+    ADC.width(ADC.WIDTH_12BIT)
+    from machine import Pin, ADC
+    from time import sleep
+
+    pot = ADC(Pin(34))
+    pot.atten(ADC.ATTN_11DB)       #Full range: 3.3v
+    """
     global audio_value
     while True:
         audio_value = adc_pin.read_u16()
