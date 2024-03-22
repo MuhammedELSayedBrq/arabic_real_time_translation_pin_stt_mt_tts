@@ -28,7 +28,7 @@ TODO:
 <ul>
 
   <li>
-  model_final.ipynb
+  try_model1.ipynb
   </li>
   <li>
   raspberry_python_old/laptop_server.py
