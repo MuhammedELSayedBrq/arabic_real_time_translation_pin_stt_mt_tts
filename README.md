@@ -26,7 +26,9 @@ TODO:
 
 **Main Scripts are:**
 <ul>
-
+  <li>
+  streamlit_ui.py   #ui with streamlit
+  </li>
   <li>
   whipser_vits_vs.ipynb
   </li>
