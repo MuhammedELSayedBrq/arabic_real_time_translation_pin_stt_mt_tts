@@ -28,7 +28,7 @@ TODO:
 <ul>
 
   <li>
-  try_model1.ipynb
+  whipser_vits_vs.ipynb
   </li>
   <li>
   raspberry_python_old/laptop_server.py
