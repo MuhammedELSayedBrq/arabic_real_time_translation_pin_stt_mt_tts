@@ -1,9 +1,9 @@
-<h2>This repo is about a microphone Max9814 connected to a raspberry pi pico w acting as a sound acuire and 
-transmit unit.</h2>
-<h2>then running a server to concatenate, process adc values as audio</h2>
-<h2>a pipeline of two models run to transcripe the audio to arabic text, then 
-translate to english --whisper medium OpenAI model.</h2>
-<h2>the translated text is turned into speech with -VITS facebook model-.</h2>
+<h3>This repo is about a microphone Max9814 connected to a raspberry pi pico w acting as a sound acuire and 
+transmit unit.
+then running a server to concatenate, process adc values as audio
+a pipeline of two models run to transcripe the audio to arabic text, then 
+translate to english --whisper medium OpenAI model--
+the translated text is turned into speech with --VITS facebook model--</h3>
 
 **Laptop**
 <ul><li>As a processing unit for the ADC values out of MAX9814</li>
@@ -19,7 +19,7 @@ interfacing unit with the microphone MAX9814 or Max4466
 socket intiate to stream data to a near wifi point with c language for real time app
 </li>
 
-TODO:
+**TODO:**
   </li>
   <li>
     Fine tuning each model for better WER
