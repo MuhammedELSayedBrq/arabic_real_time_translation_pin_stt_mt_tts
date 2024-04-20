@@ -65,7 +65,8 @@ if start_button_c:
             except:
                 receiving_socket.close()
         receiving_socket.close()
-        text_place.text(f"Received")
+        text_place.text("Received")
+        
         forced_decoder_ids = processor.get_decoder_prompt_ids(language="english", task="translate")
         
         new_data = data.reshape(1, data.shape[0])
@@ -84,8 +85,10 @@ if start_button_c:
         predicted_ids = model_whisper.generate(input_features, forced_decoder_ids=forced_decoder_ids)
         translation = processor.batch_decode(predicted_ids, skip_special_tokens=True)
 
+
+        st.text_area("Translation", translation , height = 170)
+
         end_time = time.time()
-        st.text(translation)
 
         inputs = tokenizer(text=translation, return_tensors="pt")
 
