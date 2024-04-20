@@ -19,7 +19,8 @@ interfacing unit with the microphone MAX9814 or Max4466
 socket intiate to stream data to a near wifi point with c language for real time app
 </li>
 
-**TODO:**
+<li>
+**TODOs:**
   </li>
   <li>
     Fine tuning each model for better WER
