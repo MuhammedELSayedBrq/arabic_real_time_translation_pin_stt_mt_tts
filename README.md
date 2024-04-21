@@ -39,12 +39,15 @@ socket intiate to stream data to a near wifi point with c language for real time
   whipser_vits_vs.ipynb
   </li>
   <li>
+  Pico_C_code/...
+  </li>
+  <li>
   get_ras_ip.py #get raspberry pi ip by arp response
   </li>
   <li>
-  raspberry_python_old/laptop_server.py
+  raspberry_python/laptop_server.py
   </li>
   <li>
-  raspberry_python_old/main.py
+  raspberry_python/main.py
   </li>
 </ul>
