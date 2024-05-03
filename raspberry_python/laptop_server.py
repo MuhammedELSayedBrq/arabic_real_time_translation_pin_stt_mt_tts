@@ -8,7 +8,7 @@ from get_ras_ip import get_ip
 duration = 10 
 num_channels = 1
 sample_width = 2
-sample_rate = 33075
+sample_rate = 16000
 file_path = '_assets/recorded_audio.wav'
 
 def receive_audio_data(host, port):
