@@ -36,6 +36,9 @@ socket intiate to stream data to a near wifi point with c language for real time
   streamlit_ui.py 
   </li>
   <li>
+  real_time_script.py 
+  </li>
+  <li>
   whipser_vits_vs.ipynb
   </li>
   <li>
