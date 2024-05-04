@@ -30,7 +30,7 @@ if 'duration' not in st.session_state:
 
 duration = st.slider('Choose duration (seconds) ', 1, 30, st.session_state.duration)
 st.session_state.duration = int(duration)
-
+st.text(duration)
 if 'start_button' not in st.session_state:
     st.session_state.start_button = 0
 
@@ -53,8 +53,6 @@ if start_button_c:
 
         text_place = st.empty()
         
-        
-
         start_time = time.time()
 
         while time.time() - start_time < duration:
@@ -62,21 +60,21 @@ if start_button_c:
                 audio_bytes, server_addr = receiving_socket.recvfrom(NUM_SAMPLES)
                 audio_sample = np.frombuffer(audio_bytes, dtype=np.uint8)
                 audio_sample = np.array((audio_sample - 128), dtype=np.int8)
-                audio_sample = nr.reduce_noise(y=audio_sample, sr=Sampling_Rate)
-
                 data = np.concatenate((data, audio_sample))
                 text_place.text(f"Remaining {int(duration - (time.time() - start_time))} seconds")
             except:
                 receiving_socket.close()
-        text_place.text(f"Received")
+        receiving_socket.close()
+        text_place.text("Received")
+        
         forced_decoder_ids = processor.get_decoder_prompt_ids(language="english", task="translate")
-
+        
         new_data = data.reshape(1, data.shape[0])
         scaled_data = new_data / 127
         arr = scaled_data.astype(np.float32)
         sample_rate = 16000
-
-        st.audio(arr, format='audio/wav', sample_rate=sample_rate)
+        arr = nr.reduce_noise(y=arr, sr=sample_rate)
+        st.audio(arr, sample_rate=sample_rate)
 
         input_features = processor(arr, sampling_rate=sample_rate, return_tensors="pt").input_features
 
@@ -87,8 +85,10 @@ if start_button_c:
         predicted_ids = model_whisper.generate(input_features, forced_decoder_ids=forced_decoder_ids)
         translation = processor.batch_decode(predicted_ids, skip_special_tokens=True)
 
+
+        st.text_area("Translation", translation , height = 170)
+
         end_time = time.time()
-        st.text(translation)
 
         inputs = tokenizer(text=translation, return_tensors="pt")
 
@@ -102,5 +102,5 @@ if start_button_c:
 
         waveform = outputs.waveform[0].to("cpu")
 
-        float_array = waveform.numpy().astype(float)
+        float_array = waveform.numpy().astype(np.float32)
         st.audio(float_array, format='audio/wav', sample_rate=sample_rate)
