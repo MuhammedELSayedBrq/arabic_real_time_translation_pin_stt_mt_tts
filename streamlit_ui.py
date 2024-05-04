@@ -6,7 +6,8 @@ import socket
 import torch
 import time
 import noisereduce as nr
-import threading
+#import threading
+
 @st.cache_resource
 def load_models():
     processor = WhisperProcessor.from_pretrained("openai/whisper-medium")
@@ -41,35 +42,35 @@ start_button_c = st.button('Start receiving')
 
 if start_button_c:
     with st.spinner(text='Running'):
-        def receive(data):
-            PORT = 1240
-            NUM_SAMPLES = 2048
-            Sampling_Rate = 16000
-            try :
-                get_ip()
-                st.success('Microphone Connected')
-            except:
-                st.error('Microphone Not Connected')
-            
-            receiving_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-            receiving_socket.bind(("0.0.0.0", PORT))
-
-            text_place = st.empty()
+        #def receive(data):
+        PORT = 12345
+        NUM_SAMPLES = 2048
+        Sampling_Rate = 16000
+        try :
+            get_ip()
+            st.success('Microphone Connected')
+        except:
+            st.error('Microphone Not Connected')
         
-            NUM_SAMPLES = 2048
-            start_time = time.time()
-            while True:
-                try:
-                    audio_bytes, server_addr = receiving_socket.recvfrom(NUM_SAMPLES)
-                    audio_sample = np.frombuffer(audio_bytes, dtype=np.uint8)
-                    audio_sample = np.array((audio_sample - 128), dtype=np.int8)
-                    data.extend(audio_sample.tolist())
-                    text_place.text(f"Received {time.time() - start_time} seconds")
-                except:
-                    receiving_socket.close()
+        receiving_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        receiving_socket.bind(("0.0.0.0", PORT))
 
-        thread_r = threading.Thread(target=receive(data))
-        thread_r.start()
+        text_place = st.empty()
+    
+        NUM_SAMPLES = 2048
+        start_time = time.time()
+        while time.time() - start_time < duration:
+            try:
+                audio_bytes, server_addr = receiving_socket.recvfrom(NUM_SAMPLES)
+                audio_sample = np.frombuffer(audio_bytes, dtype=np.uint8)
+                audio_sample = np.array((audio_sample - 128), dtype=np.int8)
+                data.extend(audio_sample.tolist())
+                text_place.text(f"Received {time.time() - start_time} seconds")
+            except:
+                receiving_socket.close()
+
+        #thread_r = threading.Thread(target=receive(data))
+        #thread_r.start()
         
         chu = st.button('chunk')
         if chu:
