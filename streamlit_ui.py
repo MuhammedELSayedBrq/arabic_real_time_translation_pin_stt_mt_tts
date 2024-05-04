@@ -32,6 +32,7 @@ duration = st.slider('Choose duration (seconds) ', 1, 30, st.session_state.durat
 st.session_state.duration = int(duration)
 st.text(duration)
 
+
 if 'start_button' not in st.session_state:
     st.session_state.start_button = 0
 
