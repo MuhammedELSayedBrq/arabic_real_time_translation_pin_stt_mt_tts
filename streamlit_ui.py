@@ -76,31 +76,48 @@ if start_button_c:
         arr = nr.reduce_noise(y=arr, sr=sample_rate)
         st.audio(arr, sample_rate=sample_rate)
 
-        input_features = processor(arr, sampling_rate=sample_rate, return_tensors="pt").input_features
+        @st.cache_resource
+        @st.cache_data
+        def whis(arr,sample_rate):
+            input_features = processor(arr, sampling_rate=sample_rate, return_tensors="pt").input_features
 
-        if torch.cuda.is_available():
-            input_features = input_features.to(torch.device('cuda'))
+            if torch.cuda.is_available():
+                input_features = input_features.to(torch.device('cuda'))
 
-        start_time = time.time()
-        predicted_ids = model_whisper.generate(input_features, forced_decoder_ids=forced_decoder_ids)
-        translation = processor.batch_decode(predicted_ids, skip_special_tokens=True)
+            start_time = time.time()
+            predicted_ids = model_whisper.generate(input_features, forced_decoder_ids=forced_decoder_ids)
+            translation = processor.batch_decode(predicted_ids, skip_special_tokens=True)
+            return translation
+        
+        translation = whis(arr,sample_rate)
+        whis.clear()
+        st.cache_data.clear()
 
 
         st.text_area("Translation", translation , height = 170)
 
         end_time = time.time()
 
-        inputs = tokenizer(text=translation, return_tensors="pt")
+        
+        @st.cache_resource
+        @st.cache_data
+        def vit(translation):
+            inputs = tokenizer(text=translation, return_tensors="pt")
 
-        if torch.cuda.is_available():
-            inputs = inputs.to(torch.device('cuda'))
+            if torch.cuda.is_available():
+                inputs = inputs.to(torch.device('cuda'))
 
-        set_seed(555)
+            set_seed(555)
 
-        with torch.no_grad():
-            outputs = model_vits(**inputs)
+            with torch.no_grad():
+                outputs = model_vits(**inputs)
 
-        waveform = outputs.waveform[0].to("cpu")
+            waveform = outputs.waveform[0].to("cpu")
+            return waveform
+
+        waveform = vit(translation)
+        vit.clear()
+        st.cache_data.clear()
 
         float_array = waveform.numpy().astype(np.float32)
         st.audio(float_array, format='audio/wav', sample_rate=sample_rate)
